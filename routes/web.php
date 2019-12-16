@@ -35,3 +35,13 @@ Route::get('/{provider}/redirect', [
 Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels', 'ChannelsController');
 });
+
+Route::get('discussions/create', [
+    'uses' => 'DiscussionsController@index',
+    'as' => 'discussions.create'
+]);
+
+Route::post('discussions/store', [
+    'uses' => 'DiscussionsController@store',
+    'as' => 'discussions.store'
+]);

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
     <!-- Scripts -->
     <script>
@@ -78,11 +79,56 @@
             </div>
         </nav>
 
+
+
+            @if($errors->count() > 0)
+                <ul class="list-group center-block">
+                    @foreach($errors->all() as $error)
+                        <li class="list-group-item-danger text-center" style="height: 50px;padding: 20px;margin:5px;border: 1px solid red; font-size: 16px; font-weight: bold;">{{$error}}</li>
+                    @endforeach
+                </ul>
+            @endif
+
         <div class="container">
             <div class="col-md-4">
 
                 <a href="{{route('discussions.create')}}" class="form-control btn btn-primary">Create a new discussion</a>
                 <br><br>
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="/forum" style="text-decoration: none;font-weight: bold;color: #3097D1;">Home</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/forum?filter=me" style="text-decoration: none;font-weight: bold;color: #3097D1;">My Discussions</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/forum?filter=solved" style="text-decoration: none;font-weight: bold;color: #3097D1;">Answered Discussions</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/forum?filter=unsolved" style="text-decoration: none;font-weight: bold;color: #3097D1;">Unanswered Discussions</a>
+                            </li>
+                        </ul>
+                    </div>
+                    @if(Auth::check())
+                        @if(Auth::user()->admin )
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <a href="/channels" style="text-decoration: none;font-weight: bold;color: #3097D1;">All Channels</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        @endif
+                        @endif
+                </div>
+
+
+
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -92,12 +138,13 @@
                         <ul class="list-group">
                             @foreach($channels as $channel)
                                 <li class="list-group-item">
-                                    {{$channel->title}}
+                                    <a href="{{route('channel', $channel->slug)}}" style="text-decoration: none;font-weight: bold;color: #3097D1;">{{$channel->title}}</a>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
+
             </div>
             <div class="col-md-8">
                 @yield('content')
@@ -107,5 +154,11 @@
 
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if(Session::has('success'))
+            toastr.success('{{Session::get('success')}}')
+        @endif
+    </script>
 </body>
 </html>

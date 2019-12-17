@@ -35,10 +35,21 @@ Route::get('/{provider}/redirect', [
     'uses' => 'SocialsController@auth_callback',
     'as' => 'social.callback'
 ]);
+
+Route::get('discussion/{slug}', [
+    'uses' => 'DiscussionsController@show',
+    'as' => 'discussion'
+]);
+
+Route::get('channel/{slug}', [
+    'uses' => 'ForumsController@channel',
+    'as' => 'channel'
+]);
+
 Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels', 'ChannelsController');
 
-    Route::get('discussions/create', [
+    Route::get('discussions/create/new', [
         'uses' => 'DiscussionsController@index',
         'as' => 'discussions.create'
     ]);
@@ -57,16 +68,53 @@ Route::group(['middleware' => 'auth'], function(){
         'uses' => 'RepliesController@like',
         'as' => 'reply.like'
     ]);
+
     Route::get('/reply/unlike/{id}', [
         'uses' => 'RepliesController@unlike',
         'as' => 'reply.unlike'
     ]);
+
+    Route::get('/discussion/watch/{id}', [
+        'uses' => 'WatchersController@watch',
+        'as' => 'discussion.watch'
+    ]);
+
+    Route::get('/discussion/unwatch/{id}', [
+        'uses' => 'WatchersController@unwatch',
+        'as' => 'discussion.unwatch'
+    ]);
+
+    Route::get('/discussion/best/reply/{id}', [
+        'uses' => 'RepliesController@best_answer',
+        'as' => 'discussion.best.answer'
+    ]);
+
+    Route::get('/discussion/edit/{slug}', [
+        'uses' => 'DiscussionsController@edit',
+        'as' => 'discussion.edit'
+    ]);
+
+    Route::post('/discussion/update/{id}', [
+        'uses' => 'DiscussionsController@update',
+        'as' => 'discussions.update'
+    ]);
+
+    Route::get('/reply/edit/{id}', [
+        'uses' => 'RepliesController@edit',
+        'as' => 'reply.edit'
+    ]);
+
+    Route::post('/reply/update/{id}', [
+        'uses' => 'RepliesController@update',
+        'as' => 'reply.update'
+    ]);
+
+
+
 });
 
-Route::get('discussion/{slug}', [
-    'uses' => 'DiscussionsController@show',
-    'as' => 'discussion'
-]);
+
+
 
 
 

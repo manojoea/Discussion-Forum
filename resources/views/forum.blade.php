@@ -18,7 +18,7 @@
 
                         <div class="panel-body">
                             <h4 class="text-center">
-                                <b>{{$d->title}}</b>
+                                <b><a href="{{route('discussion',  $d->slug)}}" style="text-decoration: none;color: #101010">{{$d->title}}</a></b>
                             </h4>
                             <p class="text-center">
                                 {{str_limit($d->content, 70)}}

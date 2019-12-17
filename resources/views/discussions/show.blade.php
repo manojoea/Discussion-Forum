@@ -30,7 +30,7 @@
             </h3>
             <hr>
             <p class="text-center">
-                {{$d->content}}
+                {!!  Markdown::convertToHtml($d->content)!!}
             </p>
 
             <hr>
@@ -46,7 +46,7 @@
                             <span>{{$best_answer->user->name}} <b>( {{$best_answer->user->points}} )</b></span>
                         </div>
                         <div class="panel-body">
-                            {{$best_answer->content}}
+                            {!! Markdown::convertToHtml($best_answer->content)!!}
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
             <div class="panel-body">
 
                 <p class="text-center">
-                    {{$r->content}}
+                    {!! Markdown::convertToHtml($r->content)!!}
                 </p>
             </div>
             <div class="panel-footer">
